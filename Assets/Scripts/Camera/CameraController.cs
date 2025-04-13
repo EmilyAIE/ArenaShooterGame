@@ -1,11 +1,12 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class CameraController : MonoBehaviour
+public class CameraController : NetworkBehaviour
 {
-
     public ArenaGameInput cameraControls;
     private InputAction m_look;
 
@@ -20,6 +21,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform m_player;
 
     private PlayerStatus m_playerStatus;
+
+    public GameObject cameraHolder;
+    [SerializeField]
+    private Vector3 offset;
+
+    public override void OnStartAuthority()
+    {
+        cameraHolder.SetActive(true);
+    }
 
     private void Awake()
     {
@@ -42,11 +52,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     void Update()
     {
+        
+        //cameraHolder.transform.position = transform.position + offset;
 
         if (Time.timeScale == 1 && m_playerStatus.isAlive)
         {

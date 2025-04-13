@@ -25,6 +25,8 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private bool m_allowedToJump = false;
 
+    [SerializeField] private Transform m_cameraPos;
+
     private void Awake()
     {
         //Initialise the input actions
@@ -53,9 +55,16 @@ public class PlayerMovement : NetworkBehaviour
         m_move.Disable();
         m_jump.Disable();        
     }
-    
+
+    private void Start()
+    {
+    }
+
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         if (m_playerStatus.isAlive)
         {
             //Update move direction vector
