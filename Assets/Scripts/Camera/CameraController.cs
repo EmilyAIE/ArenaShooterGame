@@ -20,7 +20,7 @@ public class CameraController : NetworkBehaviour
     [Space]
     [SerializeField] private Transform m_player;
 
-    private PlayerStatus m_playerStatus;
+    //private PlayerStatus m_playerStatus;
 
     public GameObject cameraHolder;
     [SerializeField]
@@ -42,7 +42,7 @@ public class CameraController : NetworkBehaviour
         m_look = cameraControls.Player.Look;
         m_look.Enable();
 
-        m_playerStatus = GetComponentInParent<PlayerStatus>();
+        //m_playerStatus = GetComponentInParent<PlayerStatus>();
     }
 
     private void OnDisable()
@@ -57,10 +57,12 @@ public class CameraController : NetworkBehaviour
 
     void Update()
     {
-        
+        if (!isLocalPlayer)
+            return;
+
         //cameraHolder.transform.position = transform.position + offset;
 
-        if (Time.timeScale == 1 && m_playerStatus.isAlive)
+        /*if (Time.timeScale == 1 && m_playerStatus.isAlive)
         {
             //Update camera direction vector
             m_cameraDirection = m_look.ReadValue<Vector2>() * m_cameraSpeed;
@@ -78,6 +80,32 @@ public class CameraController : NetworkBehaviour
             m_player.Rotate(Vector3.up * m_cameraDirection.x);
         }
         else
-            return;
+            return;*/
+
+        //Update camera direction vector
+        m_cameraDirection = m_look.ReadValue<Vector2>() * m_cameraSpeed;
+
+        if (m_look.enabled)
+        {
+            print("Look vector is enabled");
+        }
+        else
+        {
+            print("Look vector is disabled");
+        }
+
+        print(m_cameraDirection);
+
+        //Adjust the value of the camera vertical rotation
+        m_cameraVerticalRotation -= m_cameraDirection.y;
+
+        //Clamp vertical movement so to avoid gimblelock issues
+        m_cameraVerticalRotation = Mathf.Clamp(m_cameraVerticalRotation, -m_verticalClamp, m_verticalClamp);
+
+        //Set the value of the vertical roation
+        cameraHolder.transform.localEulerAngles = Vector3.right * m_cameraVerticalRotation;
+
+        //Set the value of the horizontal rotation
+        m_player.Rotate(Vector3.up * m_cameraDirection.x);
     }
 }
