@@ -85,15 +85,6 @@ public class CameraController : NetworkBehaviour
         //Update camera direction vector
         m_cameraDirection = m_look.ReadValue<Vector2>() * m_cameraSpeed;
 
-        if (m_look.enabled)
-        {
-            print("Look vector is enabled");
-        }
-        else
-        {
-            print("Look vector is disabled");
-        }
-
         print(m_cameraDirection);
 
         //Adjust the value of the camera vertical rotation
