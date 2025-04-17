@@ -7,6 +7,7 @@ public class PlayerShoot : NetworkBehaviour
     [SerializeField] public ArenaGameInput playerControls;
     private InputAction m_fire;
     private InputAction m_swapWeapon;
+    [SerializeField] private Camera m_playerCamera;
 
     [Header("Gun Details")]
     [SerializeField] private float m_maxShotDistance;
@@ -21,7 +22,7 @@ public class PlayerShoot : NetworkBehaviour
 
     private bool m_automaticFiring;
 
-    private PlayerStatus m_playerStatus;
+    //private PlayerStatus m_playerStatus;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class PlayerShoot : NetworkBehaviour
 
         //m_hudManager.TriggerSwap_toPistol();
 
-        m_playerStatus = GetComponent<PlayerStatus>();
+        //m_playerStatus = GetComponent<PlayerStatus>();
     }
 
     private void OnEnable()
@@ -49,12 +50,15 @@ public class PlayerShoot : NetworkBehaviour
     private void OnDisable()
     {
         m_fire.Disable();
-        m_swapWeapon.Disable();
+        //m_swapWeapon.Disable();
     }
 
     private void Update()
     {
-        if (!m_playerStatus.isAlive) return;
+        //if (!m_playerStatus.isAlive) return;
+
+        if (!isLocalPlayer)
+            return;
 
         m_automaticFiring = m_fire.ReadValue<float>() > 0;
 
@@ -66,8 +70,17 @@ public class PlayerShoot : NetworkBehaviour
 
     private void FirePistol(InputAction.CallbackContext context)
     {
-        if (context.performed && m_playerStatus.isAlive)
-        {            
+        if (context.performed && isLocalPlayer)
+        { 
+            RaycastHit hit;
+
+            Ray ray = m_playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+            if (Physics.Raycast(ray, out hit, m_maxShotDistance))
+            {
+                Debug.DrawRay(ray.origin, ray.direction * m_maxShotDistance, Color.green, 1f);
+            }
+
             //if (m_inventory.guns.Count > 0)
             //{
             //    if (!m_inventory.guns[m_inventory.selectedGunIndex].automaticFire)

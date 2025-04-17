@@ -85,8 +85,6 @@ public class CameraController : NetworkBehaviour
         //Update camera direction vector
         m_cameraDirection = m_look.ReadValue<Vector2>() * m_cameraSpeed;
 
-        print(m_cameraDirection);
-
         //Adjust the value of the camera vertical rotation
         m_cameraVerticalRotation -= m_cameraDirection.y;
 

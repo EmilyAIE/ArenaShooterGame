@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 1933569931041950183}
   - component: {fileID: 3123313646519097444}
   - component: {fileID: 1387240289991218643}
+  - component: {fileID: 5845970575880715662}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -411,6 +412,25 @@ MonoBehaviour:
   m_player: {fileID: 6236046578230520259}
   cameraHolder: {fileID: 6236046578146195811}
   offset: {x: 0, y: 1, z: -4.5}
+--- !u!114 &5845970575880715662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6236046578230519871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b7262828a22cd429eeac7a30ad45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_playerCamera: {fileID: 122513784110035967}
+  m_maxShotDistance: 30
+  m_shotStartPosition: {fileID: 0}
+  m_gunLine: {fileID: 0}
 --- !u!1 &6996163417384323971
 GameObject:
   m_ObjectHideFlags: 0
